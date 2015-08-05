@@ -6,7 +6,7 @@ var router = express.Router();
 var tweetBank = require('../tweetBank');
 
 var bodyParser = require('body-parser');
-router.use(express.static('public'));
+//router.use(express.static('public'));
 router.use(bodyParser.urlencoded({ extended: false }));
 
 router.use(function(req,res,next){
@@ -30,13 +30,12 @@ router.get('/users/:name',function(req,res){
 });
 
 router.get('/', function (req, res) {
-  if(req.path==='/'){
-	  var tweets = tweetBank.list();
-	  res.render( 'index', { title: 'Twitter.js', tweets: tweets, showForm: true } );  	
-  }
-  else {
-  	res.sendFile( path.normalize(__dirname+'/../public'+req.path) );
-  }
+  var tweets = tweetBank.list();
+  res.render( 'index', { title: 'Twitter.js', tweets: tweets, showForm: true } );  	
+});
+
+router.get('/**', function (req, res) {
+  	res.sendFile( path.resolve(__dirname+'/../public'+req.path) );
 });
 
 router.post('/submit',function(req,res){
