@@ -1,13 +1,11 @@
 var express = require('express');
 var path = require('path');
-
-
 var router = express.Router();
-var tweetBank = require('../tweetBank');
-
 var bodyParser = require('body-parser');
-//router.use(express.static('public'));
+router.use(express.static('public'));
 router.use(bodyParser.urlencoded({ extended: false }));
+
+var tweetBank = require('../tweetBank');
 
 router.use(function(req,res,next){
 	console.log(req.method+ ' / ' + res.statusCode);
@@ -34,16 +32,11 @@ router.get('/', function (req, res) {
   res.render( 'index', { title: 'Twitter.js', tweets: tweets, showForm: true } );  	
 });
 
-router.get('/**', function (req, res) {
-  	res.sendFile( path.resolve(__dirname+'/../public'+req.path) );
-});
-
 router.post('/submit',function(req,res){
 	var name = req.body.name;
 	var text = req.body.text;
 	tweetBank.add(name,text);
 	res.redirect('/');
 });
-
 
 module.exports = router;
