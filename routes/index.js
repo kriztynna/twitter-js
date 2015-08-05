@@ -13,7 +13,6 @@ router.use(function(req,res,next){
 });
 
 router.get('/', function (req, res) {
-  console.log(req);
   if(req.path==='/'){
 	  var tweets = tweetBank.list();
 	  res.render( 'index', { title: 'Twitter.js', tweets: tweets } );  	
@@ -25,24 +24,3 @@ router.get('/', function (req, res) {
 
 
 module.exports = router;
-
-/*
-app.get('/',function(req,res) {
-	var locals = {title: 'homepage', people: [{name: 'Kim'}, {name: 'Cristina'} ] };
-	var people = [{name: 'Full'}, {name: 'Stacker'}, {name: 'Son'}];
-	res.render( 'index', {title: 'Hall of Fame', people: people} );
-	// swig.renderFile(__dirname + '/views/index.html', locals, function (err, output) {
-	//   if (err) {
-	//     throw err;
-	//   }
-	// 	res.set('Status', 200);
-	//   res.send(output);
-	// });
-
-});
-
-app.get('/news',function(req,res){
-	res.set('Status', 200);
-	res.send('this is the BEST news page');
-});
-*/
