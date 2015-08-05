@@ -12,6 +12,13 @@ router.use(function(req,res,next){
 	next();
 });
 
+router.get('/users/:name',function(req,res){
+	var name = req.params.name.split(" ").map(function(a){return a[0].toUpperCase()+a.slice(1).toLowerCase();}).join(" ");
+	var list = tweetBank.find({name: name});
+	res.render('index',{title: 'Twitter.js - Posts by '+name, tweets: list});
+	//console.log(req.params.name);
+});
+
 router.get('/', function (req, res) {
   if(req.path==='/'){
 	  var tweets = tweetBank.list();
