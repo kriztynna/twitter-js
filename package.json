@@ -8,5 +8,9 @@
     "start": "nodemon app.js"
   },
   "author": "",
+  "dependencies": {
+    "express":"4.13.x",
+    "nodemon":"*"
+    },
   "license": "ISC"
 }
