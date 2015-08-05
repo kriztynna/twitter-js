@@ -9,8 +9,9 @@
   },
   "author": "",
   "dependencies": {
-    "express":"4.13.x",
-    "nodemon":"*"
-    },
+    "express": "4.13.x",
+    "nodemon": "*",
+    "swig": "^1.4.2"
+  },
   "license": "ISC"
 }
