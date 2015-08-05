@@ -11,14 +11,21 @@
       <b>Your Name</b><br>
       100 followers
     </div>
-    <div class="col-md-9">
-    
+    <table><tbody>
       <!-- display tweets here -->
       {% for tweet in tweets %}
-        <li>{{tweet.name}}: {{tweet.text}}</li>
+      <tr>
+        <td><img src="/JumpyPanda.jpg" height="50" width="50"></td>
+        <td>
+          <b>{{tweet.name}}</b>
+          <br>
+          {{tweet.text}}
+        </td>
+      </tr>
       {% endfor %}
       
-    </div>
+    </tbody></table>
+      
   </div>
     
 {% endblock %}
