@@ -27,18 +27,19 @@
       {% endfor %}
     </tbody></table>
   </div>
-  <div class="row">
+
     {% if showForm %}
-      <form action="/submit" method="POST">
-        <label for="name_field">Name:</label>
-        <input name="name" type="text" id="name_field" />
+      <form action="/submit" method="POST" class"form-control">
+        <div class="form-group">
+          <label for="name_field">Name:</label>
+          <input name="name" type="text" id="name_field" class="form-control" />
 
-        <label for="text_field">Text:</label>
-        <input name="text" type="text" id="text_field" style="width: 350px;" />
+          <label for="text_field">Text:</label>
+          <input name="text" type="text" id="text_field" style="width: 350px;" class="form-control" />
 
-        <input type="submit" value="Submit" />
+          <button type="submit" class="btn btn-default">Submit</button>
+        </div>
       </form>
     {% endif %}
-  </div>
     
 {% endblock %}
