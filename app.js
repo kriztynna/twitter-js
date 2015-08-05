@@ -9,9 +9,16 @@ app.use(function(req,res,next){
 	next();
 });
 
-app.get('/',function(req,res){
-	res.set('Status', 200);
-	res.send('server listening again');
+app.get('/',function(req,res) {
+	var locals = {title: 'homepage', people: [{name: 'Kim'}, {name: 'Cristina'} ] };
+	console.log(__dirname);
+	swig.renderFile(__dirname + '/views/index.html', locals, function (err, output) {
+	  if (err) {
+	    throw err;
+	  }
+		res.set('Status', 200);
+	  res.send(output);
+	});
 });
 
 app.get('/news',function(req,res){
