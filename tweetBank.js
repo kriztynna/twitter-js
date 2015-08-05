@@ -5,7 +5,8 @@ var data = [];
 
 //functions
 var add = function (name, text) {
-  data.push({ name: name, text: text });
+  var id = data.length+1;
+  data.push({ id: id, name: name, text: text });
 };
 
 //_.clone will send a pointer to the data array but not a duplication
