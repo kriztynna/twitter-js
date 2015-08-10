@@ -5,7 +5,8 @@ var bodyParser = require('body-parser');
 router.use(express.static('public'));
 router.use(bodyParser.urlencoded({ extended: false }));
 
-var tweetBank = require('../tweetBank');
+//var tweetBank = require('../tweetBank');
+var tweetBank = require('../models');
 
 router.use(function(req,res,next){
 	console.log(req.method+ ' / ' + res.statusCode);
@@ -28,8 +29,12 @@ router.get('/users/:name',function(req,res){
 });
 
 router.get('/', function (req, res) {
-  var tweets = tweetBank.list();
-  res.render( 'index', { title: 'Twitter.js', tweets: tweets, showForm: true } );  	
+  tweetBank.Tweet.findAll({include:[tweetBank.User]}).then(
+  	function (tweets) {
+  		console.log(tweets[0].id)
+  		console.log(tweets[0].User.name)
+    	res.render( 'index', { title: 'Twitter.js', tweets: tweets, showForm: true } );
+  });  
 });
 
 router.post('/submit',function(req,res){
