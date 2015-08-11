@@ -50,7 +50,7 @@ router.get('/', function (req, res) {
 router.post('/submit',function(req,res){
 	var name = req.body.name;
 	var text = req.body.text;
-	tweetBank.User.findOrCreate({where: {name: req.body.name, pictureUrl: '/JumpyPanda.jpg'}}).spread(function(user){
+	tweetBank.User.findOrCreate({where: {name: req.body.name}}).spread(function(user){
 		tweetBank.Tweet.create({UserId: user.id, tweet:req.body.text});
 		res.redirect('/');
 	});
