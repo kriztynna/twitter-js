@@ -43,16 +43,22 @@ router.get('/users/:name',function(req,res){
 router.get('/', function (req, res) {
   tweetBank.Tweet.findAll({include:[tweetBank.User]}).then(
   	function (tweets) {
-  		console.log(tweets[0])
-    	res.render( 'index', { title: 'Twitter.js', tweets: tweets, showForm: true } );
+  		res.render( 'index', { title: 'Twitter.js', tweets: tweets, showForm: true } );
   });  
 });
 
 router.post('/submit',function(req,res){
 	var name = req.body.name;
 	var text = req.body.text;
-	tweetBank.add(name,text);
-	res.redirect('/');
+	//tweetBank.add(name,text);
+	tweetBank.User.findOrCreate({where: {name: req.body.name}}).spread(function(user,created){
+		console.log(created)
+		console.log(user)
+		tweetBank.Tweet.create({UserId: user.id, tweet:req.body.text});
+		res.redirect('/');
+	});
+	//
+	//tweetBank.Tweet.build({UserId: id, tweet:text}).save();
 });
 
 module.exports = router;
