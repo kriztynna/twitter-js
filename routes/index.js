@@ -16,23 +16,34 @@ router.use(function(req,res,next){
 });
 
 router.get('/users/:name/:id',function(req,res){
-	var name = req.params.name.split(" ").map(function(a){return a[0].toUpperCase()+a.slice(1).toLowerCase();}).join(" ");
-	var id = +req.params.id;
-	var list = tweetBank.find({id: id});
+	tweetBank.Tweet.find( {include: [tweetBank.User], where: {id : +req.params.id}} )
+	.then(function(tweets){
 	res.render('index',{title: 'Twitter.js - Post '+id+' by '+name, tweets: list, showForm: false});
+	})
 });
 
+
+//currently functional but does not render user name on users/name page
 router.get('/users/:name',function(req,res){
-	var name = req.params.name.split(" ").map(function(a){return a[0].toUpperCase()+a.slice(1).toLowerCase();}).join(" ");
-	var list = tweetBank.find({name: name});
-	res.render('index',{title: 'Twitter.js - Posts by '+name, tweets: list, showForm: false});
+	tweetBank.User.find({ where: {name : req.params.name}})
+	.then(function(user){
+		return user.getTweets()
+	})
+	.then(function(tweets){
+		var newTweets = tweets.map(function(elem){
+			elem.User = {name: req.params.name }
+			return elem;
+			
+		})
+		res.render('index',{title: 'Twitter.js - Posts by '+req.params.name, tweets: newTweets, showForm: false })
+	})
 });
+
 
 router.get('/', function (req, res) {
   tweetBank.Tweet.findAll({include:[tweetBank.User]}).then(
   	function (tweets) {
-  		console.log(tweets[0].id)
-  		console.log(tweets[0].User.name)
+  		console.log(tweets[0])
     	res.render( 'index', { title: 'Twitter.js', tweets: tweets, showForm: true } );
   });  
 });
