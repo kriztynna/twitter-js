@@ -40,7 +40,7 @@ module.exports = function(io) {
 
 
 	router.get('/', function (req, res) {
-	  tweetBank.Tweet.findAll({include:[tweetBank.User]}).then(
+	  tweetBank.Tweet.findAll({include:[tweetBank.User],order: [ ['id','DESC'] ]}).then(
 	  	function (tweets) {
 	  		res.render( 'index', { title: 'Twitter.js', tweets: tweets, showForm: true } );
 	  });  

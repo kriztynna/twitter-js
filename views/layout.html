@@ -93,7 +93,7 @@
       socket.on('new_tweet', function (tweet) { 
         console.log(tweet.User);
         // some logic to add the new tweet to the DOM…
-        $('#tweet_table').append('<tr><td><img src="'+tweet.User.pictureUrl+'"" height="50" width="50"></td><td><b><a href=/users/'+tweet.UserId+'>'+tweet.User.name+'</a></b><br><a href=/users/'+tweet.User.name+'/tweets/'+tweet.id+'>'+tweet.tweet+'</a></td></tr>');
+        $('#tweet_table').prepend('<tr><td><img src="'+tweet.User.pictureUrl+'"" height="50" width="50"></td><td><b><a href=/users/'+tweet.UserId+'>'+tweet.User.name+'</a></b><br><a href=/users/'+tweet.User.name+'/tweets/'+tweet.id+'>'+tweet.tweet+'</a></td></tr>');
         $('#name_field').val('');
         $('#text_field').val('');
       }); 
