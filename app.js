@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var path = require('path');
+var socketio = require('socket.io');
 
 var swig = require('swig');
 swig.setDefaults({ cache: false});
@@ -12,7 +13,10 @@ app.set('view engine', 'html');
 // tells the app what function to use for rendering html
 app.set('views', path.normalize(__dirname+'/views'));
 
+var server = app.listen(3000);
 var routes = require('./routes');
-app.use('/',routes);
+var io = socketio.listen(server);
 
-app.listen(3000);
+app.use('/',routes(io));
+
+
