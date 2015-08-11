@@ -54,8 +54,8 @@ module.exports = function(io) {
 				tweetBank.Tweet
 					.create({UserId: user.id, tweet:req.body.text})
 					.then(function(tweet){
+						if (!user.pictureUrl) {user.pictureUrl='/JumpyPanda.jpg';}
 						console.log(user.pictureUrl);
-						//res.redirect('/');
 						io.sockets.emit('new_tweet', { id: tweet.id, tweet: tweet.tweet, User: {pictureUrl: user.pictureUrl, id: tweet.UserId, name: user.name} });
 					});
 			});
