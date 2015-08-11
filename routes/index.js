@@ -16,9 +16,10 @@ router.use(function(req,res,next){
 });
 
 router.get('/users/:name/:id',function(req,res){
-	tweetBank.Tweet.find( {include: [tweetBank.User], where: {id : +req.params.id}} )
+	tweetBank.Tweet.findOne( {include: [tweetBank.User], where: {id : +req.params.id} } )
 	.then(function(tweets){
-	res.render('index',{title: 'Twitter.js - Post '+id+' by '+name, tweets: list, showForm: false});
+		var newTweet = [{tweet: tweets.tweet, User: {name: req.params.name}, id: req.params.id}];
+	res.render('index',{title: 'Twitter.js - Post '+req.params.id+' by '+req.params.name, tweets: newTweet, showForm: false});
 	})
 });
 
@@ -32,8 +33,7 @@ router.get('/users/:name',function(req,res){
 	.then(function(tweets){
 		var newTweets = tweets.map(function(elem){
 			elem.User = {name: req.params.name }
-			return elem;
-			
+			return elem;	
 		})
 		res.render('index',{title: 'Twitter.js - Posts by '+req.params.name, tweets: newTweets, showForm: false })
 	})
