@@ -17,8 +17,8 @@ router.use(function(req,res,next){
 
 router.get('/users/:name/:id',function(req,res){
 	tweetBank.Tweet.findOne( {include: [tweetBank.User], where: {id : +req.params.id} } )
-	.then(function(tweets){
-		var newTweet = [{tweet: tweets.tweet, User: {name: req.params.name}, id: req.params.id}];
+	.then(function(oneTweet){
+		var newTweet = [{tweet: oneTweet.tweet, User: {name: oneTweet.User.name, pictureUrl: oneTweet.User.pictureUrl}, id: oneTweet.id}];
 	res.render('index',{title: 'Twitter.js - Post '+req.params.id+' by '+req.params.name, tweets: newTweet, showForm: false});
 	})
 });
@@ -28,14 +28,14 @@ router.get('/users/:name/:id',function(req,res){
 router.get('/users/:name',function(req,res){
 	tweetBank.User.find({ where: {name : req.params.name}})
 	.then(function(user){
-		return user.getTweets()
+		var picture = user.pictureUrl;
+		return user.getTweets().map(function(elem){
+			elem.User = {name: req.params.name, pictureUrl: picture };
+			return elem;
+		});
 	})
 	.then(function(tweets){
-		var newTweets = tweets.map(function(elem){
-			elem.User = {name: req.params.name }
-			return elem;	
-		})
-		res.render('index',{title: 'Twitter.js - Posts by '+req.params.name, tweets: newTweets, showForm: false })
+		res.render('index',{title: 'Twitter.js - Posts by '+req.params.name, tweets: tweets, showForm: false })
 	})
 });
 
@@ -50,15 +50,10 @@ router.get('/', function (req, res) {
 router.post('/submit',function(req,res){
 	var name = req.body.name;
 	var text = req.body.text;
-	//tweetBank.add(name,text);
-	tweetBank.User.findOrCreate({where: {name: req.body.name}}).spread(function(user,created){
-		console.log(created)
-		console.log(user)
+	tweetBank.User.findOrCreate({where: {name: req.body.name}}).spread(function(user){
 		tweetBank.Tweet.create({UserId: user.id, tweet:req.body.text});
 		res.redirect('/');
 	});
-	//
-	//tweetBank.Tweet.build({UserId: id, tweet:text}).save();
 });
 
 module.exports = router;

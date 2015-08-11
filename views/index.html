@@ -15,7 +15,7 @@
       <!-- display tweets here -->
       {% for tweet in tweets %}
       <tr>
-        <td><img src="/JumpyPanda.jpg" height="50" width="50"></td>
+        <td><img src="{{tweet.User.pictureUrl}}" height="50" width="50"></td>
         <td>
           <b><a href="/users/{{tweet.User.name}}">{{tweet.User.name}}</a></b>
           <br>
